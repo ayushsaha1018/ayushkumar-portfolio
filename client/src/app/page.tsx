@@ -11,9 +11,8 @@ import Markdown from "react-markdown";
 
 const BLUR_FADE_DELAY = 0.04;
 
-import { SanityDocument } from "next-sanity";
-
 import { sanityFetch, urlFor } from "@/sanity/client";
+import { UserProfile } from "@/lib/types";
 
 const QUERY = `{
   'info':*[_type == 'info'], 
@@ -39,13 +38,13 @@ export default async function Page() {
               <BlurFadeText
                 className="max-w-[600px] md:text-xl"
                 delay={BLUR_FADE_DELAY}
-                text={info[0].aboutShort}
+                text={info[0].description}
               />
             </div>
             <BlurFade delay={BLUR_FADE_DELAY}>
               <Avatar className="size-28 border">
-                <AvatarImage alt={info[0].name} src={DATA.avatarUrl} />
-                <AvatarFallback>{DATA.initials}</AvatarFallback>
+                <AvatarImage alt={info[0].name} src={urlFor(info[0].avatar).url()} />
+                <AvatarFallback>{info[0].intitials}</AvatarFallback>
               </Avatar>
             </BlurFade>
           </div>
@@ -57,7 +56,7 @@ export default async function Page() {
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
           <Markdown className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
-            {info[0].aboutLong}
+            {info[0].summary}
           </Markdown>
         </BlurFade>
       </section>
@@ -90,19 +89,20 @@ export default async function Page() {
           <BlurFade delay={BLUR_FADE_DELAY * 7}>
             <h2 className="text-xl font-bold">Education</h2>
           </BlurFade>
-          {DATA.education.map((education, id) => (
+          {education.map((education, id) => (
             <BlurFade
-              key={education.school}
+              key={education.instituteName}
               delay={BLUR_FADE_DELAY * 8 + id * 0.05}
             >
               <ResumeCard
-                key={education.school}
-                href={education.href}
-                logoUrl={education.logoUrl}
-                altText={education.school}
-                title={education.school}
+                key={education.instituteName}
+                href={education?.instituteWebsite}
+                logoUrl={urlFor(education.logo).url()}
+                altText={education.instituteName}
+                title={education.instituteName}
+                description={education.pointers}
                 subtitle={education.degree}
-                period={`${education.start} - ${education.end}`}
+                period={`${education.startDate} - ${education.endDate}`}
               />
             </BlurFade>
           ))}
@@ -114,7 +114,7 @@ export default async function Page() {
             <h2 className="text-xl font-bold">Skills</h2>
           </BlurFade>
           <div className="flex flex-wrap gap-1">
-            {DATA.skills.map((skill, id) => (
+            {info[0].skills.map((skill, id) => (
               <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
                 <Badge key={skill}>{skill}</Badge>
               </BlurFade>
@@ -163,7 +163,7 @@ export default async function Page() {
           </div>
         </div>
       </section>
-      <section id="hackathons">
+      {/* <section id="hackathons">
         <div className="space-y-12 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 13}>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -205,7 +205,7 @@ export default async function Page() {
             </ul>
           </BlurFade>
         </div>
-      </section>
+      </section> */}
       <section id="contact">
         <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 16}>

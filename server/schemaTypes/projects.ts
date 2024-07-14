@@ -15,6 +15,7 @@ export const projects = defineType({
       name: 'image',
       title: 'Project Image',
       type: 'image',
+      validation: (Rule) => [Rule.required()],
       options: {
         hotspot: true,
       },
@@ -29,6 +30,7 @@ export const projects = defineType({
       name: 'techUsed',
       title: 'Technologies Used',
       type: 'array',
+      validation: (Rule) => [Rule.required()],
       of: [
         {
           type: 'string',

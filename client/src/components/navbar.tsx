@@ -8,10 +8,60 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { DATA } from "@/data/resume";
+import { UserInfo } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { sanityFetch } from "@/sanity/client";
 import Link from "next/link";
+import { Icons } from "./icons";
 
-export default function Navbar() {
+export default async function Navbar() {
+  let data = await sanityFetch<UserInfo[]>({ query: `*[_type == 'info']` });
+
+  const {email, phoneNo, linkedin, github, instagram, twitter, youtube} = data[0]
+
+  const contact = {
+    email,
+    tel: phoneNo,
+    social: {
+      GitHub: {
+        name: "GitHub",
+        url: github || "#",
+        icon: Icons.github,
+        navbar: !!github,
+      },
+      LinkedIn: {
+        name: "LinkedIn",
+        url: linkedin || "#",
+        icon: Icons.linkedin,
+        navbar: !!linkedin,
+      },
+      X: {
+        name: "X",
+        url: twitter || "#",
+        icon: Icons.x,
+        navbar: !!twitter,
+      },
+      Youtube: {
+        name: "Youtube",
+        url: youtube || "#",
+        icon: Icons.youtube,
+        navbar: !!youtube,
+      },
+      Email: {
+        name: "Send Email",
+        url: `mailto:${email}` || "#",
+        icon: Icons.email,
+        navbar: !!email,
+      },
+      Whatsapp: {
+        name: "Send Email",
+        url: `https://api.whatsapp.com/send?phone=${phoneNo}` || "#",
+        icon: Icons.whatsapp,
+        navbar: !!phoneNo,
+      },
+    },
+  }
+ 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-4 flex origin-bottom h-full max-h-14">
       <div className="fixed bottom-0 inset-x-0 h-16 w-full bg-background to-transparent backdrop-blur-lg [-webkit-mask-image:linear-gradient(to_top,black,transparent)] dark:bg-background"></div>
@@ -37,7 +87,7 @@ export default function Navbar() {
           </DockIcon>
         ))}
         <Separator orientation="vertical" className="h-full" />
-        {Object.entries(DATA.contact.social)
+        {Object.entries(contact.social)
           .filter(([_, social]) => social.navbar)
           .map(([name, social]) => (
             <DockIcon key={name}>
@@ -45,6 +95,7 @@ export default function Navbar() {
                 <TooltipTrigger asChild>
                   <Link
                     href={social.url}
+                    target="_blank"
                     className={cn(
                       buttonVariants({ variant: "ghost", size: "icon" }),
                       "size-12"

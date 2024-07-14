@@ -29,6 +29,7 @@ export const education = defineType({
       name: 'pointers',
       title: 'Description',
       type: 'array',
+      validation: (Rule) => [Rule.required()],
       of: [
         {
           type: 'string',

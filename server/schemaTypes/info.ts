@@ -15,14 +15,29 @@ export const info = defineType({
       validation: (Rule) => [Rule.required()],
     }),
     defineField({
-      name: 'aboutShort',
-      title: 'About Yourself in short',
+      name: 'initials',
+      title: 'Initials',
+      type: 'string',
+      validation: (Rule) => [Rule.required()],
+    }),
+    defineField({
+      name: 'avatar',
+      title: 'Avatar',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      validation: (Rule) => [Rule.required()],
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description in short',
       type: 'text',
       validation: (Rule) => [Rule.required()],
     }),
     defineField({
-      name: 'aboutLong',
-      title: 'About Yourself in long',
+      name: 'summary',
+      title: 'Summary',
       type: 'text',
       validation: (Rule) => [Rule.required()],
     }),
@@ -44,8 +59,8 @@ export const info = defineType({
         Rule.regex(
           /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
           {
-            name: 'email', // Error message is "Does not match email-pattern"
-            invert: false, // Boolean to allow any value that does NOT match pattern
+            name: 'email',
+            invert: false,
           },
         ),
     }),
