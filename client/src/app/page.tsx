@@ -11,7 +11,19 @@ import Markdown from "react-markdown";
 
 const BLUR_FADE_DELAY = 0.04;
 
-export default function Page() {
+import { SanityDocument } from "next-sanity";
+
+import { sanityFetch, urlFor } from "@/sanity/client";
+
+const QUERY = `{
+  'info':*[_type == 'info'], 
+  'workExp':*[_type == 'workExperience'],
+  'education':*[_type == 'education'],
+}`
+
+export default async function Page() {
+  const {info, education, workExp} = await sanityFetch<UserProfile>({query : QUERY});
+
   return (
     <main className="flex flex-col min-h-[100dvh] space-y-10">
       <section id="hero">
@@ -22,17 +34,17 @@ export default function Page() {
                 delay={BLUR_FADE_DELAY}
                 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
                 yOffset={8}
-                text={`Hi, I'm ${DATA.name.split(" ")[0]} 👋`}
+                text={`Hi, I'm ${info[0].name.split(" ")[0]} 👋`}
               />
               <BlurFadeText
                 className="max-w-[600px] md:text-xl"
                 delay={BLUR_FADE_DELAY}
-                text={DATA.description}
+                text={info[0].aboutShort}
               />
             </div>
             <BlurFade delay={BLUR_FADE_DELAY}>
               <Avatar className="size-28 border">
-                <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
+                <AvatarImage alt={info[0].name} src={DATA.avatarUrl} />
                 <AvatarFallback>{DATA.initials}</AvatarFallback>
               </Avatar>
             </BlurFade>
@@ -45,7 +57,7 @@ export default function Page() {
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
           <Markdown className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
-            {DATA.summary}
+            {info[0].aboutLong}
           </Markdown>
         </BlurFade>
       </section>
@@ -54,21 +66,20 @@ export default function Page() {
           <BlurFade delay={BLUR_FADE_DELAY * 5}>
             <h2 className="text-xl font-bold">Work Experience</h2>
           </BlurFade>
-          {DATA.work.map((work, id) => (
+          {workExp.map((work, id) => (
             <BlurFade
-              key={work.company}
+              key={work.companyName}
               delay={BLUR_FADE_DELAY * 6 + id * 0.05}
-            >
+            > 
               <ResumeCard
-                key={work.company}
-                logoUrl={work.logoUrl}
-                altText={work.company}
-                title={work.company}
-                subtitle={work.title}
-                href={work.href}
-                badges={work.badges}
-                period={`${work.start} - ${work.end ?? "Present"}`}
-                description={work.description}
+                key={work.companyName}
+                logoUrl={urlFor(work.logo).url()}
+                altText={work.companyName}
+                title={work.companyName}
+                subtitle={work.role}
+                href={work.companyWebsite}
+                period={`${work.startDate} - ${work.endDate ?? "Present"}`}
+                description={work.pointers}
               />
             </BlurFade>
           ))}
