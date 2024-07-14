@@ -10,21 +10,20 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import Markdown from "react-markdown";
+import { Icons } from "./icons";
 
 interface Props {
   title: string;
   href?: string;
   description: string;
-  dates: string;
+  startDate: string;
+  endDate: string;
   tags: readonly string[];
   link?: string;
   image?: string;
   video?: string;
-  links?: readonly {
-    icon: React.ReactNode;
-    type: string;
-    href: string;
-  }[];
+  github?: string;
+  website?: string;
   className?: string;
 }
 
@@ -32,12 +31,14 @@ export function ProjectCard({
   title,
   href,
   description,
-  dates,
+  startDate,
+  endDate,
   tags,
   link,
   image,
   video,
-  links,
+  github,
+  website,
   className,
 }: Props) {
   return (
@@ -64,6 +65,8 @@ export function ProjectCard({
           <Image
             src={image}
             alt={title}
+            width={600}
+            height={600}
             className="h-40 w-full overflow-hidden object-cover object-top"
           />
         )}
@@ -71,7 +74,9 @@ export function ProjectCard({
       <CardHeader className="px-2">
         <div className="space-y-1">
           <CardTitle className="mt-1 text-base">{title}</CardTitle>
-          <time className="font-sans text-xs">{dates}</time>
+          <time className="font-sans text-xs">
+            {startDate} - {endDate}
+          </time>
           <div className="hidden font-sans text-xs underline print:visible">
             {link?.replace("https://", "").replace("www.", "").replace("/", "")}
           </div>
@@ -96,18 +101,24 @@ export function ProjectCard({
         )}
       </CardContent>
       <CardFooter className="px-2 pb-2">
-        {links && links.length > 0 && (
-          <div className="flex flex-row flex-wrap items-start gap-1">
-            {links?.map((link, idx) => (
-              <Link href={link?.href} key={idx} target="_blank">
-                <Badge key={idx} className="flex gap-2 px-2 py-1 text-[10px]">
-                  {link.icon}
-                  {link.type}
-                </Badge>
-              </Link>
-            ))}
-          </div>
-        )}
+        <div className="flex flex-row flex-wrap items-start gap-1">
+        {website && (
+            <Link href={website} target="_blank">
+              <Badge className="flex gap-2 px-2 py-1 text-[10px]">
+              <Icons.github className="size-3" />
+                Github
+              </Badge>
+            </Link>
+          )}
+          {github && (
+            <Link href={github} target="_blank">
+              <Badge className="flex gap-2 px-2 py-1 text-[10px]">
+              <Icons.globe className="size-3" />
+                Website
+              </Badge>
+            </Link>
+          )}
+        </div>
       </CardFooter>
     </Card>
   );

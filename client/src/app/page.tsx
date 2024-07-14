@@ -18,10 +18,11 @@ const QUERY = `{
   'info':*[_type == 'info'], 
   'workExp':*[_type == 'workExperience'],
   'education':*[_type == 'education'],
+  'projects':*[_type == 'projects'],
 }`
 
 export default async function Page() {
-  const {info, education, workExp} = await sanityFetch<UserProfile>({query : QUERY});
+  const {info, education, workExp, projects} = await sanityFetch<UserProfile>({query : QUERY});
 
   return (
     <main className="flex flex-col min-h-[100dvh] space-y-10">
@@ -142,21 +143,22 @@ export default async function Page() {
             </div>
           </BlurFade>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
-            {DATA.projects.map((project, id) => (
+            {projects.map((project, id) => (
               <BlurFade
                 key={project.title}
                 delay={BLUR_FADE_DELAY * 12 + id * 0.05}
               >
                 <ProjectCard
-                  href={project.href}
+                  href={project.website}
                   key={project.title}
                   title={project.title}
                   description={project.description}
-                  dates={project.dates}
-                  tags={project.technologies}
-                  image={project.image}
-                  video={project.video}
-                  links={project.links}
+                  startDate={project.startDate}
+                  endDate={project.endDate}
+                  tags={project.techUsed}
+                  image={urlFor(project.image).url()}
+                  github={project.githubRepo}
+                  website={project.website}
                 />
               </BlurFade>
             ))}

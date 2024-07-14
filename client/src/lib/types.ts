@@ -42,7 +42,7 @@ interface Education extends documentInfo {
   instituteWebsite?: string;
 }
 
-interface projects extends documentInfo {
+interface Project extends documentInfo {
   title: string;
   image: { [key: string]: any };
   description: string;
@@ -57,4 +57,5 @@ export interface UserProfile {
   info: UserInfo[];
   workExp: WorkExperience[];
   education: Education[];
+  projects: Project[];
 }
