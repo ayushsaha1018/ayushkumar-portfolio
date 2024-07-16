@@ -67,7 +67,7 @@ export function ProjectCard({
             alt={title}
             width={600}
             height={600}
-            className="h-40 w-full overflow-hidden object-cover object-top"
+            className="h-60 w-full overflow-hidden object-cover object-center"
           />
         )}
       </Link>

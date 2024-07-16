@@ -11,12 +11,13 @@ const BLUR_FADE_DELAY = 0.04;
 import { UserProfile } from "@/lib/types";
 import { sanityFetch, urlFor } from "@/sanity/client";
 import { PortableText } from "next-sanity";
+import ShinyButton from "@/components/magicui/shiny-button";
 
 const QUERY = `{
   'info':*[_type == 'info'], 
   'workExp':*[_type == 'workExperience'],
   'education':*[_type == 'education'],
-  'projects':*[_type == 'projects'],
+  'projects':*[_type == 'projects']|order(orderRank),
 }`;
 
 export default async function Page() {
@@ -146,7 +147,7 @@ export default async function Page() {
             </div>
           </BlurFade>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
-            {projects.map((project, id) => (
+            {projects.slice(0, 4).map((project, id) => (
               <BlurFade
                 key={project.title}
                 delay={BLUR_FADE_DELAY * 12 + id * 0.05}
@@ -166,6 +167,13 @@ export default async function Page() {
               </BlurFade>
             ))}
           </div>
+          <BlurFade delay={BLUR_FADE_DELAY * 11}>
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <Link href="/projects">
+                <ShinyButton text="View All Works" />
+              </Link>
+            </div>
+          </BlurFade>
         </div>
       </section>
       <section id="contact">

@@ -7,7 +7,7 @@ import React from 'react'
 const BLUR_FADE_DELAY = 0.04;
 
 const Projects = async () => {
- const projects = await sanityFetch<Project[]>({query : "*[_type == 'projects']"})
+ const projects = await sanityFetch<Project[]>({query : "*[_type == 'projects']|order(orderRank)"})
 
   return (
     <section id="projects">
