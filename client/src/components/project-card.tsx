@@ -105,16 +105,16 @@ export function ProjectCard({
         {website && (
             <Link href={website} target="_blank">
               <Badge className="flex gap-2 px-2 py-1 text-[10px]">
-              <Icons.github className="size-3" />
-                Github
+              <Icons.globe className="size-3" />
+                Website
               </Badge>
             </Link>
           )}
           {github && (
             <Link href={github} target="_blank">
               <Badge className="flex gap-2 px-2 py-1 text-[10px]">
-              <Icons.globe className="size-3" />
-                Website
+              <Icons.github className="size-3" />
+                Github
               </Badge>
             </Link>
           )}

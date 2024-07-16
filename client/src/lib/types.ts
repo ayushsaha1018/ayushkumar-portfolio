@@ -11,7 +11,7 @@ export interface UserInfo extends documentInfo {
   intitials: string;
   avatar: { [key: string]: any };
   description: string;
-  summary: string;
+  summary: any;
   skills: string[];
   email?: string;
   phoneNo?: string;
@@ -22,7 +22,7 @@ export interface UserInfo extends documentInfo {
   youtube?: string;
 }
 
-interface WorkExperience extends documentInfo {
+export interface WorkExperience extends documentInfo {
   companyName: string;
   logo: { [key: string]: any };
   role: string;
@@ -32,7 +32,7 @@ interface WorkExperience extends documentInfo {
   companyWebsite?: string;
 }
 
-interface Education extends documentInfo {
+export interface Education extends documentInfo {
   instituteName: string;
   logo: { [key: string]: any };
   degree: string;
@@ -42,10 +42,11 @@ interface Education extends documentInfo {
   instituteWebsite?: string;
 }
 
-interface Project extends documentInfo {
+export interface Project extends documentInfo {
   title: string;
   image: { [key: string]: any };
   description: string;
+  isFreelance?: boolean;
   techUsed: string[];
   startDate: string;
   endDate: string;

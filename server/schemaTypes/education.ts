@@ -1,3 +1,4 @@
+import {orderRankField} from '@sanity/orderable-document-list'
 import {defineField, defineType} from 'sanity'
 
 export const education = defineType({
@@ -53,5 +54,6 @@ export const education = defineType({
       title: 'Institution Website Link',
       type: 'url',
     }),
+    orderRankField({type: 'education'}),
   ],
 })

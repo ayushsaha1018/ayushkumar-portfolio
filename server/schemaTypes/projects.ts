@@ -1,3 +1,4 @@
+import {orderRankField} from '@sanity/orderable-document-list'
 import {defineField, defineType} from 'sanity'
 
 export const projects = defineType({
@@ -25,6 +26,11 @@ export const projects = defineType({
       title: 'Decription',
       type: 'text',
       validation: (Rule) => [Rule.required()],
+    }),
+    defineField({
+      name: 'isFreelance',
+      title: 'Freelance Project',
+      type: 'boolean',
     }),
     defineField({
       name: 'techUsed',
@@ -60,5 +66,6 @@ export const projects = defineType({
       title: 'Github Repository Link',
       type: 'url',
     }),
+    orderRankField({type: 'education', newItemPosition: 'before'}),
   ],
 })
