@@ -17,7 +17,6 @@ import { Icons } from "./icons";
 
 const navbarData = [
   { href: "/", icon: HomeIcon, label: "Home" },
-  { href: "/blog", icon: NotebookIcon, label: "Blog" },
   { href: "/projects", icon: CodeIcon, label: "Projects" },
   { href: "/freelance", icon: HandshakeIcon, label: "Freelance Works" },
 ];
