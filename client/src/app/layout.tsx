@@ -3,7 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { UserInfo } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { sanityFetch } from "@/sanity/client";
+import { sanityFetch, urlFor } from "@/sanity/client";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
@@ -16,7 +16,7 @@ const fontSans = FontSans({
 export async function generateMetadata(): Promise<Metadata | undefined> {
   let data = await sanityFetch<UserInfo[]>({ query: `*[_type == 'info']` });
 
-  let { name, description } = data[0];
+  let { name, description, avatar } = data[0];
 
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_URL!),
@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata | undefined> {
     openGraph: {
       title: `${name}`,
       description: description,
-      url: (process.env.NEXT_PUBLIC_URL!),
+      url: process.env.NEXT_PUBLIC_URL!,
       siteName: `${name}`,
       locale: "en_US",
       type: "website",
@@ -47,6 +47,11 @@ export async function generateMetadata(): Promise<Metadata | undefined> {
     twitter: {
       title: `${name}`,
       card: "summary_large_image",
+      images: [
+        {
+          url: urlFor(avatar).url(),
+        },
+      ],
     },
     verification: {
       google: "",
