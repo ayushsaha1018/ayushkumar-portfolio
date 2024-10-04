@@ -15,8 +15,8 @@ import ShinyButton from "@/components/magicui/shiny-button";
 
 const QUERY = `{
   'info':*[_type == 'info'], 
-  'workExp':*[_type == 'workExperience'],
-  'education':*[_type == 'education'],
+  'workExp':*[_type == 'workExperience'] | order(_createdAt desc),
+  'education':*[_type == 'education'] | order(_createdAt desc),
   'projects':*[_type == 'projects']|order(orderRank),
 }`;
 
