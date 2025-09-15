@@ -54,6 +54,6 @@ export const education = defineType({
       title: 'Institution Website Link',
       type: 'url',
     }),
-    orderRankField({type: 'education'}),
+    orderRankField({type: 'education', newItemPosition: 'before'}),
   ],
 })

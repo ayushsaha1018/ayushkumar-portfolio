@@ -16,13 +16,18 @@ export default defineConfig({
     structureTool({
       structure: (S, context) => {
         // Extract all schema types except 'education'
-        const otherSchemaTypes = schemaTypes.filter((type) => type.name !== 'projects')
+        const otherSchemaTypes = schemaTypes.filter(
+          (type) =>
+            type.name !== 'projects' && type.name !== 'workExperience' && type.name !== 'education',
+        )
 
         return S.list()
           .title('Content')
           .items([
             // Add the orderable education list item
             orderableDocumentListDeskItem({type: 'projects', S, context}),
+            orderableDocumentListDeskItem({type: 'workExperience', S, context}),
+            orderableDocumentListDeskItem({type: 'education', S, context}),
             // Add the rest of the schema types
             ...otherSchemaTypes.map((type) => S.documentTypeListItem(type.name)),
           ])
